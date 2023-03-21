@@ -17,13 +17,13 @@
 
 //открытие диалога помощи о функциях графика
 void schedule_help() {
-    // This creates (but does not yet display) a message dialog with
-    // the given text as the title.
+    //This creates (but does not yet display) a message dialog with
+    //the given text as the title.
     GtkWidget *help = gtk_message_dialog_new(NULL, GTK_DIALOG_MODAL, 
 	GTK_MESSAGE_INFO, GTK_BUTTONS_OK, "Помощь по графику!");
 
-    // The (optional) secondary text shows up in the "body" of the
-    // dialog. Note that printf-style formatting is available.
+    //The (optional) secondary text shows up in the "body" of the
+    //dialog. Note that printf-style formatting is available.
     //gtk_message_dialog_format_secondary_text(GTK_MESSAGE_DIALOG(help), 
 	//"This is secondary text with printf-style formatting: %d", 99);
 	gtk_message_dialog_format_secondary_text(GTK_MESSAGE_DIALOG(help), 
@@ -74,7 +74,7 @@ void create_basics() {
 	gfloat *Y;
 	GdkRGBA color;
 	
-	/* We define some data */
+	/*We define some data */
 	X = g_new0(gfloat, POINTS);
 	Y = g_new0(gfloat, POINTS);
 	
@@ -130,9 +130,9 @@ void create_basics() {
 	separator = gtk_separator_new(GTK_ORIENTATION_HORIZONTAL);
 	gtk_box_pack_start(GTK_BOX(vbox), separator, FALSE, FALSE, 0);
 	
-	/*-----------------------------------------------------------------
-	* This is all you need:
-	* ---------------------------------------------------------------*/
+	/*----------------------------------------------------------------
+	This is all you need:
+	----------------------------------------------------------------*/
 	
 	/* Create the GtkDatabox widget */
 	gtk_databox_create_box_with_scrollbars_and_rulers(&box, &table, 
@@ -154,9 +154,9 @@ void create_basics() {
 	-10000., 23000.);
 	gtk_databox_auto_rescale(GTK_DATABOX(box), 0.05);
 	
-	/*-----------------------------------------------------------------
-	* Done
-	* ---------------------------------------------------------------*/
+	/*---------------------------------------------------------------
+	Done
+	---------------------------------------------------------------*/
 	
 	separator = gtk_separator_new(GTK_ORIENTATION_HORIZONTAL);
 	gtk_box_pack_start(GTK_BOX(vbox), separator, FALSE, TRUE, 0);
@@ -174,7 +174,7 @@ void create_basics() {
 	gdk_cursor_new_for_display(gdk_display_get_default(), GDK_CROSS));
 }
 
-int main(int argc, char *argv[]) {
+main(int argc, char *argv[]) {
     char name[] = "100s";
     outSignal(name);
     outAnnotation(name);
@@ -184,5 +184,6 @@ int main(int argc, char *argv[]) {
 	create_basics();
 	gtk_main();
     
-    return 0;
+    exit(0);
 }
+
