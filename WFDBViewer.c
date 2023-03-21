@@ -174,7 +174,7 @@ void create_basics() {
 	gdk_cursor_new_for_display(gdk_display_get_default(), GDK_CROSS));
 }
 
-main(int argc, char *argv[]) {
+int main(int argc, char *argv[]) {
     char name[] = "100s";
     outSignal(name);
     outAnnotation(name);
@@ -184,6 +184,6 @@ main(int argc, char *argv[]) {
 	create_basics();
 	gtk_main();
     
-    exit(0);
+    return 0;
 }
 
