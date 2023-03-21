@@ -124,6 +124,8 @@ void create_basics() {
 	//добавление событий на пункты меню
 	g_signal_connect(G_OBJECT(quitMi), "activate", 
 	G_CALLBACK(gtk_main_quit), NULL);
+	g_signal_connect(G_OBJECT(scheMi), "activate", 
+	G_CALLBACK(schedule_help), NULL);
 	
 	separator = gtk_separator_new(GTK_ORIENTATION_HORIZONTAL);
 	gtk_box_pack_start(GTK_BOX(vbox), separator, FALSE, FALSE, 0);
