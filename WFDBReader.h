@@ -7,5 +7,7 @@
 
 //вывести входные сигналы
 int outSignal(char *name);
+//вывести аннотацию
+int outAnnotation(char *name);
 
 #endif /*WFDBREADER_H*/
