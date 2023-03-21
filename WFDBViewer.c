@@ -15,6 +15,45 @@
 #define BARS 25
 #define MARKER 10
 
+//открытие диалога помощи о функциях графика
+void schedule_help() {
+    // This creates (but does not yet display) a message dialog with
+    // the given text as the title.
+    GtkWidget *help = gtk_message_dialog_new(NULL, GTK_DIALOG_MODAL, 
+	GTK_MESSAGE_INFO, GTK_BUTTONS_OK, "Помощь по графику!");
+
+    // The (optional) secondary text shows up in the "body" of the
+    // dialog. Note that printf-style formatting is available.
+    //gtk_message_dialog_format_secondary_text(GTK_MESSAGE_DIALOG(help), 
+	//"This is secondary text with printf-style formatting: %d", 99);
+	gtk_message_dialog_format_secondary_text(GTK_MESSAGE_DIALOG(help), 
+"Код для этого примера демонстрирует самый простой способ \
+использования виджета GtkDatabox.\n\nПрименение:\nНарисуйте \
+выделение с нажатой левой кнопкой, \nзатем щелкните выделение.\
+\nИспользуйте правую кнопку мыши, чтобы уменьшить масштаб.\
+\nShift+правая кнопка мыши увеличивает масштаб по умолчанию.\
+\n\nКолесо прокрутки мыши: \n*Удерживая Ctrl+колесо прокрутки, \
+увеличивает/уменьшает масштаб. \nКолесо прокрутки перемещается \
+вверх/вниз. \n*Удерживая Shift+, колесо прокрутки перемещается \
+влево/вправо по графику.");
+
+    // This displays our message dialog as a modal dialog, waiting for
+    // the user to click a button before moving on. The return value
+    // comes from the :response signal emitted by the dialog. By
+    // default, the dialog only has an OK button, so we'll get a
+    // GTK_RESPONSE_OK if the user clicked the button. But if the user
+    // destroys the window, we'll get a GTK_RESPONSE_DELETE_EVENT.
+    int response = gtk_dialog_run(GTK_DIALOG(help));
+	
+	//тема полезная для отладки
+    printf("response was %d (OK=%d, DELETE_EVENT=%d)\n", 
+	response, GTK_RESPONSE_OK, GTK_RESPONSE_DELETE_EVENT);
+
+    // If we don't destroy the dialog here, it will still be displayed
+    // (in back) when the second dialog below is run.
+    gtk_widget_destroy(help);
+}
+
 void create_basics() {
 	GtkWidget *window;
 	GtkWidget *vbox;
@@ -89,10 +128,9 @@ void create_basics() {
 	separator = gtk_separator_new(GTK_ORIENTATION_HORIZONTAL);
 	gtk_box_pack_start(GTK_BOX(vbox), separator, FALSE, FALSE, 0);
 	
-	/* -----------------------------------------------------------------
+	/*-----------------------------------------------------------------
 	* This is all you need:
-	* -----------------------------------------------------------------
-	*/
+	* ---------------------------------------------------------------*/
 	
 	/* Create the GtkDatabox widget */
 	gtk_databox_create_box_with_scrollbars_and_rulers(&box, &table, 
@@ -114,10 +152,9 @@ void create_basics() {
 	-10000., 23000.);
 	gtk_databox_auto_rescale(GTK_DATABOX(box), 0.05);
 	
-	/* -----------------------------------------------------------------
-	* Done :-)
-	* -----------------------------------------------------------------
-	*/
+	/*-----------------------------------------------------------------
+	* Done
+	* ---------------------------------------------------------------*/
 	
 	separator = gtk_separator_new(GTK_ORIENTATION_HORIZONTAL);
 	gtk_box_pack_start(GTK_BOX(vbox), separator, FALSE, TRUE, 0);
@@ -147,4 +184,3 @@ int main(int argc, char *argv[]) {
     
     return 0;
 }
-
