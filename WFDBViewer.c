@@ -11,7 +11,9 @@
 #include <gtkdatabox_ruler.h>
 
 int main(int argc, char *argv[]) {
-    
+    char name[] = "100s";
+    outSignal(name);
+    outAnnotation(name);
     
     return 0;
 }
