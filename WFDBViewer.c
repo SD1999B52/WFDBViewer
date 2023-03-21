@@ -94,8 +94,7 @@ int main(int argc, char *argv[]) {
 	
 	/* -----------------------------------------------------------------
 	* This is all you need:
-	* -----------------------------------------------------------------
-	*/
+	* ----------------------------------------------------------------*/
 	
 	/* Create the GtkDatabox widget */
 	gtk_databox_create_box_with_scrollbars_and_rulers(&box, &table, 
@@ -118,9 +117,8 @@ int main(int argc, char *argv[]) {
 	gtk_databox_auto_rescale(GTK_DATABOX(box), 0.05);
 	
 	/* -----------------------------------------------------------------
-	* Done :-)
-	* -----------------------------------------------------------------
-	*/
+	* Done
+	* ----------------------------------------------------------------*/
 	
 	separator = gtk_separator_new(GTK_ORIENTATION_HORIZONTAL);
 	gtk_box_pack_start(GTK_BOX(vbox), separator, FALSE, TRUE, 0);
@@ -139,10 +137,6 @@ int main(int argc, char *argv[]) {
 }
 
 int main(int argc, char *argv[]) {
-    char name[] = "100s";
-    outSignal(name);
-    outAnnotation(name);
-	
 	gtk_init(&argc, &argv);
 	
 	create_basics();
@@ -150,7 +144,3 @@ int main(int argc, char *argv[]) {
     
     return 0;
 }
-    
-    return 0;
-}
-
