@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
+#include <windows.h>
 #include "WFDBReader.h"
 
 #include <gtk/gtk.h>
@@ -15,18 +16,53 @@
 #define BARS 25
 #define MARKER 10
 
+//открытие диалога выбора файла
+void open_dialog() {
+	OPENFILENAME ofn;
+	ZeroMemory(&ofn, sizeof(ofn));
+	
+	char fileName[MAX_PATH] = "";
+	
+	ofn.lStructSize = sizeof(OPENFILENAME);
+	ofn.hwndOwner = NULL;
+	ofn.lpstrFilter = "WFDBFiles (*.atr *.dat *.hea)\0*.atr;*.dat;*.hea\0";
+	ofn.lpstrFile = fileName;
+	ofn.nMaxFile = MAX_PATH;
+	ofn.Flags = OFN_EXPLORER | OFN_FILEMUSTEXIST | OFN_HIDEREADONLY;
+	ofn.lpstrDefExt = "";
+	
+	if (GetOpenFileName(&ofn)) {
+		WIN32_FIND_DATA findFileData;
+		FindFirstFile(fileName, &findFileData);
+		
+		char *name = findFileData.cFileName;
+		
+		//убрать расширение
+		for (int i = 0; name[i] != '\0'; i++) {
+			if (name[i] == '.') {
+				name[i] = '\0';
+				
+				break;
+			}
+		}
+		
+		outSignal(name);
+		outAnnotation(name);
+	}
+}
+
 //открытие диалога помощи о функциях графика
 void schedule_help() {
     //This creates (but does not yet display) a message dialog with
     //the given text as the title.
-    GtkWidget *help = gtk_message_dialog_new(NULL, GTK_DIALOG_MODAL, 
+    GtkWidget *message = gtk_message_dialog_new(NULL, GTK_DIALOG_MODAL, 
 	GTK_MESSAGE_INFO, GTK_BUTTONS_OK, "Помощь по графику!");
-
+	
     //The (optional) secondary text shows up in the "body" of the
     //dialog. Note that printf-style formatting is available.
     //gtk_message_dialog_format_secondary_text(GTK_MESSAGE_DIALOG(help), 
 	//"This is secondary text with printf-style formatting: %d", 99);
-	gtk_message_dialog_format_secondary_text(GTK_MESSAGE_DIALOG(help), 
+	gtk_message_dialog_format_secondary_text(GTK_MESSAGE_DIALOG(message), 
 "Код для этого примера демонстрирует самый простой способ \
 использования виджета GtkDatabox.\n\nПрименение:\nНарисуйте \
 выделение с нажатой левой кнопкой, \nзатем щелкните выделение.\
@@ -36,22 +72,22 @@ void schedule_help() {
 увеличивает/уменьшает масштаб. \nКолесо прокрутки перемещается \
 вверх/вниз. \n*Удерживая Shift+, колесо прокрутки перемещается \
 влево/вправо по графику.");
-
+	
     // This displays our message dialog as a modal dialog, waiting for
     // the user to click a button before moving on. The return value
     // comes from the :response signal emitted by the dialog. By
     // default, the dialog only has an OK button, so we'll get a
     // GTK_RESPONSE_OK if the user clicked the button. But if the user
     // destroys the window, we'll get a GTK_RESPONSE_DELETE_EVENT.
-    int response = gtk_dialog_run(GTK_DIALOG(help));
+    int response = gtk_dialog_run(GTK_DIALOG(message));
 	
 	//тема полезная для отладки
     printf("response was %d (OK=%d, DELETE_EVENT=%d)\n", 
 	response, GTK_RESPONSE_OK, GTK_RESPONSE_DELETE_EVENT);
-
+	
     // If we don't destroy the dialog here, it will still be displayed
     // (in back) when the second dialog below is run.
-    gtk_widget_destroy(help);
+    gtk_widget_destroy(message);
 }
 
 void create_basics() {
@@ -126,6 +162,8 @@ void create_basics() {
 	G_CALLBACK(gtk_main_quit), NULL);
 	g_signal_connect(G_OBJECT(scheMi), "activate", 
 	G_CALLBACK(schedule_help), NULL);
+	g_signal_connect(G_OBJECT(openMi), "activate", 
+	G_CALLBACK(open_dialog), NULL);
 	
 	separator = gtk_separator_new(GTK_ORIENTATION_HORIZONTAL);
 	gtk_box_pack_start(GTK_BOX(vbox), separator, FALSE, FALSE, 0);
@@ -149,7 +187,7 @@ void create_basics() {
 	
 	graph = gtk_databox_points_new(POINTS, X, Y, &color, 1);
 	gtk_databox_graph_add(GTK_DATABOX(box), graph);
-
+	
 	gtk_databox_set_total_limits(GTK_DATABOX(box), -1000., 5000., 
 	-10000., 23000.);
 	gtk_databox_auto_rescale(GTK_DATABOX(box), 0.05);
@@ -175,10 +213,6 @@ void create_basics() {
 }
 
 int main(int argc, char *argv[]) {
-    char name[] = "100s";
-    outSignal(name);
-    outAnnotation(name);
-	
 	gtk_init(&argc, &argv);
 	
 	create_basics();
@@ -186,4 +220,3 @@ int main(int argc, char *argv[]) {
     
     return 0;
 }
-
