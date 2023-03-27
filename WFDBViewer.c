@@ -161,6 +161,7 @@ void schedule_help() {
     gtk_widget_destroy(message);
 }
 
+//создание форм и тд.
 void create_basics() {
 	GtkWidget *window;
 	GtkWidget *vbox;
