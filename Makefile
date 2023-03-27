@@ -167,7 +167,7 @@ MFLAGS =
 # CFLAGS is the set of C compiler options.  CFLAGS should always include
 # CCDEFS.
 CFLAGS = -Wno-implicit -Wformat $(MFLAGS) -g -O $(CCDEFS) $(LC) $(LIBFLAC_CFLAGS) \
- -I$(DESTDIR)$(INCDIR) WFDBReader.o `pkgconf --cflags gtk+-3.0` `pkgconf --cflags gtkdatabox`
+ -I$(DESTDIR)$(INCDIR) `pkgconf --cflags gtk+-3.0` `pkgconf --cflags gtkdatabox`
 
 # LDFLAGS is appended to the C compiler command line to specify loading the
 # WFDB library.

@@ -17,15 +17,12 @@
 
 GtkWidget *box;
 
-//lkz ghjdthrb
-
 //генерация числа от min до max
 double randfrom(double min, double max) {
 	double range = (max - min); 
 	double div = RAND_MAX / range;
 	
 	return min + (rand() / div);
-	
 }
 
 //вывод файла на график
@@ -44,6 +41,7 @@ void out_signal(char *name) {
 	
 	if (nsig < 1) {
 		//выход так как ошибка открытия
+		return;
 	}
 	
 	//очистка box
@@ -55,6 +53,7 @@ void out_signal(char *name) {
 		
 		if (isigopen(name, s, nsig) != nsig) {
 			//выход так как ошибка
+			return;
 		}
 		
 		v = (WFDB_Sample *)malloc(nsig * sizeof(WFDB_Sample));
