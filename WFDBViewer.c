@@ -16,6 +16,68 @@
 #define BARS 25
 #define MARKER 10
 
+
+//вывод файла на график
+void out_signal(char *name) {
+	WFDB_Sample *v;
+	WFDB_Siginfo *s;
+	
+	gfloat *x;
+	gfloat *y;
+	
+	GtkDataboxGraph *graph;
+	
+	//открытие файла сигналов
+	//и получаем количество записей
+	int nsig = isigopen(name, NULL, 0);
+	
+	if (nsig < 1) {
+		//выход так как ошибка открытия
+	}
+	
+	//очистка box
+	gtk_databox_graph_remove_all(GTK_DATABOX(box));
+	
+	//для отрисовки всех сигналов
+	for (int i = 0; i < nsig; i++) {
+		s = (WFDB_Siginfo *)malloc(nsig * sizeof(WFDB_Siginfo));
+		
+		if (isigopen(name, s, nsig) != nsig) {
+			//выход так как ошибка
+		}
+		
+		v = (WFDB_Sample *)malloc(nsig * sizeof(WFDB_Sample));
+		
+		x = g_new0(gfloat, POINTS);
+		y = g_new0(gfloat, POINTS);
+		
+		GdkRGBA color;
+		color.red = randfrom(0.0, 1.0);
+		color.green = randfrom(0.0, 1.0);
+		color.blue = randfrom(0.0, 1.0);
+		color.alpha = 1;
+		
+		for (int j = 0; j < POINTS; j++) {
+			getvec(v);
+			
+			x[j] = j;
+			y[j] = (v[i] - 1000) * 0.01;
+		}
+		
+		//тут обратить внимание
+		graph = gtk_databox_lines_new(POINTS, x, y, &color, 1);
+		gtk_databox_graph_add(GTK_DATABOX(box), graph);
+		gtk_databox_auto_rescale(GTK_DATABOX(box), 0.05);
+		
+		//очистка памяти динамических массивов
+		free(v);
+		free(s);
+	}
+	
+	//завершаем работу с WFDB
+	wfdbquit();
+}
+
 //открытие диалога выбора файла
 void open_dialog() {
 	OPENFILENAME ofn;
