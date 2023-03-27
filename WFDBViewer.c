@@ -17,12 +17,15 @@
 
 GtkWidget *box;
 
+//lkz ghjdthrb
+
 //генерация числа от min до max
 double randfrom(double min, double max) {
 	double range = (max - min); 
 	double div = RAND_MAX / range;
 	
 	return min + (rand() / div);
+	
 }
 
 //вывод файла на график
