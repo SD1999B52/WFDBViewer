@@ -2,7 +2,9 @@
 #include <stdlib.h>
 #include <math.h>
 #include <windows.h>
-#include "WFDBReader.h"
+#include <malloc.h>
+#include <wfdb/wfdb.h>   
+#include <time.h> 
 
 #include <gtk/gtk.h>
 #include <gdk/gdkkeysyms.h>
@@ -12,9 +14,16 @@
 #include <gtkdatabox_ruler.h>
 
 #define POINTS 2000
-#define STEPS 50
-#define BARS 25
-#define MARKER 10
+
+GtkWidget *box;
+
+//генерация числа от min до max
+double randfrom(double min, double max) {
+	double range = (max - min); 
+	double div = RAND_MAX / range;
+	
+	return min + (rand() / div);
+}
 
 //открытие диалога выбора файла
 void open_dialog() {
@@ -46,8 +55,7 @@ void open_dialog() {
 			}
 		}
 		
-		outSignal(name);
-		outAnnotation(name);
+		out_signal(name);
 	}
 }
 
@@ -102,22 +110,8 @@ void create_basics() {
 	GtkWidget *quitMi;
 	GtkWidget *scheMi;
 	GtkWidget *close_button;
-	GtkWidget *box;
 	GtkWidget *separator;
 	GtkWidget *table;
-	GtkDataboxGraph *graph;
-	gfloat *X;
-	gfloat *Y;
-	GdkRGBA color;
-	
-	/*We define some data */
-	X = g_new0(gfloat, POINTS);
-	Y = g_new0(gfloat, POINTS);
-	
-	for (gint i = 0; i < POINTS; i++) {
-		X[i] = i;
-		Y[i] = sin(i * 4 * G_PI / POINTS);
-	}
 	
 	window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
 	gtk_widget_set_size_request(window, 500, 500);
@@ -178,15 +172,6 @@ void create_basics() {
 	
 	/* Put it somewhere */
 	gtk_box_pack_start(GTK_BOX(vbox), table, TRUE, TRUE, 0);
-	
-	/* Add your data data in some color */
-	color.red = 0;
-	color.green = 0;
-	color.blue = 0;
-	color.alpha = 1;
-	
-	graph = gtk_databox_points_new(POINTS, X, Y, &color, 1);
-	gtk_databox_graph_add(GTK_DATABOX(box), graph);
 	
 	gtk_databox_set_total_limits(GTK_DATABOX(box), -1000., 5000., 
 	-10000., 23000.);
