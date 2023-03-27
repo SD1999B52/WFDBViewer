@@ -2,7 +2,9 @@
 #include <stdlib.h>
 #include <math.h>
 #include <windows.h>
-#include "WFDBReader.h"
+#include <malloc.h>
+#include <wfdb/wfdb.h>   
+#include <time.h> 
 
 #include <gtk/gtk.h>
 #include <gdk/gdkkeysyms.h>
@@ -12,10 +14,8 @@
 #include <gtkdatabox_ruler.h>
 
 #define POINTS 2000
-#define STEPS 50
-#define BARS 25
-#define MARKER 10
 
+GtkWidget *box;
 
 //вывод файла на график
 void out_signal(char *name) {
@@ -275,6 +275,8 @@ void create_basics() {
 }
 
 int main(int argc, char *argv[]) {
+	srand(time(0));
+	
 	gtk_init(&argc, &argv);
 	
 	create_basics();
