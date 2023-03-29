@@ -81,6 +81,7 @@ void out_signal(char *name) {
 		gtk_databox_auto_rescale(GTK_DATABOX(box), 0.05);
 		
 		//очистка памяти динамических массивов
+		//тут ошибка скорее всего
 		free(v);
 		free(s);
 	}
