@@ -261,6 +261,6 @@ int main(int argc, char *argv[]) {
 	
 	create_basics();
 	gtk_main();
-    
-    return 0;
+	
+	return 0;
 }
